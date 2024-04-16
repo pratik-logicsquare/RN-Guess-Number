@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     color: Colors.accent500,
     marginVertical: 8,
-    fontWeight: "bold",
+    fontFamily: "open-sans-bold",
     width: 50,
     textAlign: "center",
   },
