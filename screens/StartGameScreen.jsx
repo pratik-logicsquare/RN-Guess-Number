@@ -2,7 +2,7 @@ import { View, TextInput, StyleSheet, Alert } from "react-native";
 import PrimaryButton from "../components/common/PrimaryButton";
 import { useState } from "react";
 
-const StartGameScreen = () => {
+const StartGameScreen = ({ onPickNumber }) => {
   const [enteredNumber, setEnteredNumber] = useState("");
 
   const _onChangeNumber = (number) => {
@@ -14,10 +14,10 @@ const StartGameScreen = () => {
   };
 
   const _onConfirm = () => {
-    const numberInput = parseInt(enteredNumber);
+    const chosenNumber = parseInt(enteredNumber);
 
     // show alert if number is invalid
-    if (isNaN(numberInput) || numberInput <= 0 || numberInput > 100) {
+    if (isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 100) {
       Alert.alert(
         "Invalid Number",
         "Number must be a number between 1 and 100",
@@ -26,13 +26,13 @@ const StartGameScreen = () => {
       return;
     }
 
-    // redirect to game screen...
+    onPickNumber(chosenNumber);
   };
 
   return (
     <View style={styles.inputContainer}>
       <TextInput
-        style={styles.numberInput}
+        style={styles.chosenNumber}
         maxLength={2}
         keyboardType="number-pad"
         value={enteredNumber}
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     shadowOpacity: 0.25,
   },
-  numberInput: {
+  chosenNumber: {
     height: 50,
     fontSize: 32,
     borderBottomColor: "#ddb52f",
