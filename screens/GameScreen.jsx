@@ -1,8 +1,9 @@
-import { View, Text, StyleSheet, Alert } from "react-native";
-import { PrimaryButton, Title } from "../components/UI";
+import { useEffect, useState } from "react";
+import { View, StyleSheet, Alert } from "react-native";
+import { Card, InstructionText, PrimaryButton, Title } from "../components/UI";
+import { FontAwesome } from "@expo/vector-icons";
 import NumberContainer from "../components/Game/NumberContainer";
 import generateNumberBetween from "../utils/generate-random-number";
-import { useEffect, useState } from "react";
 
 let minGuess = 1;
 let maxGuess = 100;
@@ -46,13 +47,21 @@ const GameScreen = ({ userNumber, onGameOver }) => {
     <View style={styles.screen}>
       <Title>Opponent's Guess</Title>
       <NumberContainer number={currentGuess} />
-      <View>
-        <Text>Higher or Lower?</Text>
-        <View>
-          <PrimaryButton onPress={() => _guessNewNumber("lower")} title="-" />
-          <PrimaryButton onPress={() => _guessNewNumber("higher")} title="+" />
+      <Card>
+        <InstructionText>Higher or Lower?</InstructionText>
+        <View style={styles.buttonsContainer}>
+          <View style={styles.buttonContainer}>
+            <PrimaryButton onPress={() => _guessNewNumber("lower")}>
+              <FontAwesome name="minus" size={16} color="white" />
+            </PrimaryButton>
+          </View>
+          <View style={styles.buttonContainer}>
+            <PrimaryButton onPress={() => _guessNewNumber("higher")}>
+              <FontAwesome name="plus" size={16} color="white" />
+            </PrimaryButton>
+          </View>
         </View>
-      </View>
+      </Card>
 
       <View>{/* LOG ROUNDS */}</View>
     </View>
@@ -66,5 +75,11 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 24,
     paddingTop: 44,
+  },
+  buttonsContainer: {
+    flexDirection: "row",
+  },
+  buttonContainer: {
+    flex: 1,
   },
 });

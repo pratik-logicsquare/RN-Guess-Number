@@ -1,6 +1,6 @@
 import { View, TextInput, StyleSheet, Alert } from "react-native";
 import { useState } from "react";
-import { PrimaryButton } from "../components/UI";
+import { Card, InstructionText, PrimaryButton, Title } from "../components/UI";
 import Colors from "../constants/colors";
 
 const StartGameScreen = ({ onPickNumber }) => {
@@ -31,24 +31,29 @@ const StartGameScreen = ({ onPickNumber }) => {
   };
 
   return (
-    <View style={styles.inputContainer}>
-      <TextInput
-        style={styles.chosenNumber}
-        maxLength={2}
-        keyboardType="number-pad"
-        value={enteredNumber}
-        onChangeText={_onChangeNumber}
-      />
+    <View style={styles.rootContainer}>
+      <Title>Guess My Number</Title>
+      <Card>
+        <InstructionText>Enter a number</InstructionText>
 
-      <View style={styles.buttonsContainer}>
-        <View style={styles.buttonContainer}>
-          <PrimaryButton onPress={_resetNumber} title="Reset" />
-        </View>
+        <TextInput
+          style={styles.chosenNumber}
+          maxLength={2}
+          keyboardType="number-pad"
+          value={enteredNumber}
+          onChangeText={_onChangeNumber}
+        />
 
-        <View style={styles.buttonContainer}>
-          <PrimaryButton onPress={_onConfirm} title="Confirm" />
+        <View style={styles.buttonsContainer}>
+          <View style={styles.buttonContainer}>
+            <PrimaryButton onPress={_resetNumber}>Reset</PrimaryButton>
+          </View>
+
+          <View style={styles.buttonContainer}>
+            <PrimaryButton onPress={_onConfirm}>Confirm</PrimaryButton>
+          </View>
         </View>
-      </View>
+      </Card>
     </View>
   );
 };
@@ -56,20 +61,9 @@ const StartGameScreen = ({ onPickNumber }) => {
 export default StartGameScreen;
 
 const styles = StyleSheet.create({
-  inputContainer: {
-    padding: 16,
+  rootContainer: {
     alignItems: "center",
-    gap: 16,
     marginTop: 100,
-    marginHorizontal: 24,
-    borderRadius: 8,
-    backgroundColor: Colors.primary800,
-    elevation: 4, // shadow for android
-    // shadow for iOS
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 6,
-    shadowOpacity: 0.25,
   },
   chosenNumber: {
     height: 50,
@@ -87,6 +81,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   buttonContainer: {
-    width: "50%",
+    flex: 1,
   },
 });
