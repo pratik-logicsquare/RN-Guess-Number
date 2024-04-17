@@ -22,6 +22,7 @@ export default function App() {
   }, [fontsLoaded, fontError]);
 
   const [userNumber, setUserNumber] = useState();
+  const [rounds, setRounds] = useState(0);
   const [gameIsOver, setGameIsOver] = useState(true);
 
   const _onPickNumber = (number) => {
@@ -31,6 +32,11 @@ export default function App() {
 
   const _handleGameOver = () => {
     setGameIsOver(true);
+  };
+
+  const _handleStartNewGame = () => {
+    setUserNumber(null);
+    setRounds(0);
   };
 
   let screen = <StartGameScreen onPickNumber={_onPickNumber} />;
@@ -44,7 +50,14 @@ export default function App() {
       <GameScreen userNumber={userNumber} onGameOver={_handleGameOver} />
     );
 
-  if (gameIsOver && userNumber) screen = <GameOverScreen />;
+  if (gameIsOver && userNumber)
+    screen = (
+      <GameOverScreen
+        userNumber={userNumber}
+        rounds={rounds}
+        onStartNewGame={_handleStartNewGame}
+      />
+    );
 
   return (
     <LinearGradient

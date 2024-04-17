@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View } from "react-native";
 import Colors from "../../constants/colors";
 
-const Card = ({ children }) => {
-  return <View style={styles.card}>{children}</View>;
+const Card = ({ children, style }) => {
+  return <View style={[styles.card, style]}>{children}</View>;
 };
 
 export default Card;
