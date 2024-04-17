@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
-    marginTop: 16,
   },
   itemText: {
     fontFamily: "open-sans",

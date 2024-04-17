@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { View, StyleSheet, Alert, Text, FlatList } from "react-native";
+import { View, StyleSheet, Alert, FlatList } from "react-native";
 import { Card, InstructionText, PrimaryButton, Title } from "../components/UI";
 import { FontAwesome } from "@expo/vector-icons";
 import NumberContainer from "../components/Game/NumberContainer";
 import generateNumberBetween from "../utils/generate-random-number";
 import GuessLogItem from "../components/Game/GuessLogItem";
+import { deviceWidth } from "../utils/device-dimensions";
 
 let minGuess = 1;
 let maxGuess = 100;
@@ -68,18 +69,17 @@ const GameScreen = ({ userNumber, onGameOver }) => {
         </View>
       </Card>
 
-      <View style={styles.listContainer}>
-        <FlatList
-          data={guessRounds}
-          renderItem={({ item, index }) => (
-            <GuessLogItem
-              roundNumber={guessRounds?.length - index}
-              guess={item}
-            />
-          )}
-          keyExtractor={(_, index) => index}
-        />
-      </View>
+      <FlatList
+        data={guessRounds}
+        renderItem={({ item, index }) => (
+          <GuessLogItem
+            roundNumber={guessRounds?.length - index}
+            guess={item}
+          />
+        )}
+        keyExtractor={(_, index) => index}
+        contentContainerStyle={styles.listContainer}
+      />
     </View>
   );
 };
@@ -89,6 +89,7 @@ export default GameScreen;
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
+    alignItems: "center",
     paddingHorizontal: 24,
     paddingTop: 44,
   },
@@ -103,6 +104,7 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     flex: 1,
-    padding: 16,
+    gap: 16,
+    marginVertical: deviceWidth < 380 ? 24 : 36,
   },
 });
