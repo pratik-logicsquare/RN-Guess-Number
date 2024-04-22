@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
-import { View, StyleSheet, Alert, FlatList } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Alert,
+  FlatList,
+  useWindowDimensions,
+} from "react-native";
 import { Card, InstructionText, PrimaryButton, Title } from "../components/UI";
 import { FontAwesome } from "@expo/vector-icons";
 import NumberContainer from "../components/Game/NumberContainer";
 import generateNumberBetween from "../utils/generate-random-number";
 import GuessLogItem from "../components/Game/GuessLogItem";
-import { deviceWidth } from "../utils/device-dimensions";
 
 let minGuess = 1;
 let maxGuess = 100;
@@ -14,6 +19,7 @@ const GameScreen = ({ userNumber, onGameOver }) => {
   const initialGuess = generateNumberBetween(1, 100, userNumber);
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
   const [guessRounds, setGuessRounds] = useState([initialGuess]);
+  const { width } = useWindowDimensions();
 
   const _guessNewNumber = (direction) => {
     if (
@@ -49,9 +55,8 @@ const GameScreen = ({ userNumber, onGameOver }) => {
     }
   }, [currentGuess, userNumber, onGameOver]);
 
-  return (
-    <View style={styles.screen}>
-      <Title>Opponent's Guess</Title>
+  let content = (
+    <>
       <NumberContainer number={currentGuess} />
       <Card style={styles.card}>
         <InstructionText>Higher or Lower?</InstructionText>
@@ -68,7 +73,33 @@ const GameScreen = ({ userNumber, onGameOver }) => {
           </View>
         </View>
       </Card>
+    </>
+  );
 
+  if (width > 500) {
+    content = (
+      <>
+        <View style={styles.buttonsContainerWide}>
+          <View style={styles.buttonContainer}>
+            <PrimaryButton onPress={() => _guessNewNumber("lower")}>
+              <FontAwesome name="minus" size={16} color="white" />
+            </PrimaryButton>
+          </View>
+          <NumberContainer number={currentGuess} />
+          <View style={styles.buttonContainer}>
+            <PrimaryButton onPress={() => _guessNewNumber("higher")}>
+              <FontAwesome name="plus" size={16} color="white" />
+            </PrimaryButton>
+          </View>
+        </View>
+      </>
+    );
+  }
+
+  return (
+    <View style={styles.screen}>
+      <Title>Opponent's Guess</Title>
+      {content}
       <FlatList
         data={guessRounds}
         renderItem={({ item, index }) => (
@@ -99,12 +130,15 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     flexDirection: "row",
   },
+  buttonsContainerWide: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 16,
+  },
   buttonContainer: {
     flex: 1,
   },
   listContainer: {
-    flex: 1,
     gap: 16,
-    marginVertical: deviceWidth < 380 ? 24 : 36,
   },
 });
